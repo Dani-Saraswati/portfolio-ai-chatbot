@@ -48,13 +48,13 @@ Guidelines:
             }
             
             data = {
-                "model": "mistral/mistral-7b-instruct:free",  # Free model
+                "model": "openai/gpt-3.5-turbo",  # Stable, cheap model
                 "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message}
                 ],
                 "temperature": 0.7,
-                "max_tokens": 500
+                "max_tokens": 200  # Reduced to save money
             }
             
             async with session.post(
