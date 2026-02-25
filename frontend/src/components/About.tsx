@@ -12,7 +12,7 @@ export const About: React.FC = () => {
           </div>
           <div style={{ backgroundColor: '#374151', padding: '32px', borderRadius: '8px' }}>
             <h3 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px', color: '#3B82F6' }}>Quick Facts</h3>
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0, space: '12px' }}>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <li style={{ marginBottom: '12px', color: '#D1D5DB' }}>📍 San Francisco, CA</li>
               <li style={{ marginBottom: '12px', color: '#D1D5DB' }}>💼 Senior Frontend Developer</li>
               <li style={{ marginBottom: '12px', color: '#D1D5DB' }}>🎓 BS Computer Science</li>
