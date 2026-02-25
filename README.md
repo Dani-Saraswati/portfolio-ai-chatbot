@@ -30,3 +30,19 @@ portfolio-ai-chatbot/
 ├── docs/
 ├── .gitignore
 └── README.md
+
+##  Demo Video
+
+Watch the full working demo here:
+
+👉 https://drive.google.com/file/d/1BiKQPmsIa-7t3mRxRJWJoaaRKAA2JLKu/view?usp=drive_link
+
+---
+
+##  Live Deployment
+
+Frontend (Vercel):  
+https://your-vercel-link.vercel.app
+
+Backend API (Render):  
+https://portfolio-ai-chatbot-oncu.onrender.com/docs
