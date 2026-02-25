@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import Resume
@@ -6,14 +6,32 @@ import json
 
 router = APIRouter(prefix="/api/resume", tags=["resume"])
 
+
 @router.get("/")
 async def get_resume(db: Session = Depends(get_db)):
-    """Get resume data"""
+    """Get resume data (auto-create if not exists)"""
+
+    # Try to get active resume
     resume = db.query(Resume).filter(Resume.is_active == True).first()
-    
+
+    # IMPORTANT: On Render DB is empty → create default resume
     if not resume:
-        raise HTTPException(status_code=404, detail="Resume not found")
-    
+        resume = Resume(
+            name="Saraswati Dani",
+            email="example@email.com",
+            phone="",
+            location="India",
+            summary="Welcome to my AI portfolio chatbot!",
+            skills="[]",
+            experiences="[]",
+            education="[]",
+            projects="[]",
+            is_active=True
+        )
+        db.add(resume)
+        db.commit()
+        db.refresh(resume)
+
     return {
         "id": resume.id,
         "name": resume.name,
@@ -27,22 +45,26 @@ async def get_resume(db: Session = Depends(get_db)):
         "projects": json.loads(resume.projects) if resume.projects else [],
     }
 
+
 @router.get("/skills")
 async def get_skills(db: Session = Depends(get_db)):
     """Get only skills"""
+
     resume = db.query(Resume).filter(Resume.is_active == True).first()
-    
+
     if not resume or not resume.skills:
         return {"skills": []}
-    
+
     return {"skills": json.loads(resume.skills)}
+
 
 @router.get("/projects")
 async def get_projects(db: Session = Depends(get_db)):
     """Get only projects"""
+
     resume = db.query(Resume).filter(Resume.is_active == True).first()
-    
+
     if not resume or not resume.projects:
         return {"projects": []}
-    
+
     return {"projects": json.loads(resume.projects)}
