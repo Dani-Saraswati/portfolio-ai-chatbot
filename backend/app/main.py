@@ -1,15 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .config import get_settings
 from .database import init_db
 from .routes import resume, chat
-import json
 
 # Initialize database
 init_db()
-
-# Get settings
-settings = get_settings()
 
 # Create FastAPI app
 app = FastAPI(
@@ -18,20 +13,30 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware
+# ---------------- CORS FIX (IMPORTANT) ----------------
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://portfolio-ai-chatbot-kfbedv89a.vercel.app",
+    "https://portfolio-ai-chatbot-kfbedv89a.vercel.app/",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# ------------------------------------------------------
+
 
 # Include routers
 app.include_router(resume.router)
 app.include_router(chat.router)
 
-# Health check
+
+# Root
 @app.get("/")
 async def root():
     return {
@@ -39,10 +44,12 @@ async def root():
         "docs": "Visit /docs for API documentation"
     }
 
+
+# Health check
 @app.get("/api/health")
 async def health_check():
     return {"status": "ok", "message": "Backend is running"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+
+# This line helps confirm deployment in Render logs
+print("CORS FIX DEPLOYED SUCCESSFULLY")
