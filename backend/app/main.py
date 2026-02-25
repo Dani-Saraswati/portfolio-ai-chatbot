@@ -31,8 +31,12 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://portfolio-ai-chatbot-kfbedv89a.vercel.app",
+    ],
+    allow_credentials=False,  # IMPORTANT
     allow_methods=["*"],
     allow_headers=["*"],
 )
